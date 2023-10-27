@@ -3,3 +3,4 @@ __pycache__
 *.tiff
 *.csv
 *.npz
+network_analysis/BCT
