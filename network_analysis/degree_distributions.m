@@ -2,6 +2,9 @@ clearvars
 close all
 clc
 
+% Requires the Brain Connectivity Toolbox
+% https://sites.google.com/site/bctnet/getting-started
+
 addpath('./BCT/2019_03_03_BCT/');
 
 
