@@ -9,22 +9,28 @@ addpath('./BCT/2019_03_03_BCT/');
 
 
 bots = {'bot_01', 'bot_02', 'bot_03', 'bot_04', 'bot_05', 'bot_06'};
+phases = {'after'};
 
+path = '../network_inference_data/fc_matrices_synthetic/';
+label = 'mimat_w_nospikes';
+
+outpath = '../network_analysis_data/degree_distributions/';
 
 for i = 1:length(bots)
 
-    bot = string(bots(i));
-    
-    % read in functional connectivity matrix
-    FC1 = readmatrix(strcat('../network_inference_data/fc_matrices/', bot, '_before_mimat_w.csv'));
-    FC2 = readmatrix(strcat('../network_inference_data/fc_matrices/', bot, '_after_mimat_w.csv'));
+    for j = 1:length(phases)
 
-    % before
-    deg1 = sort(degrees_und(FC1), 'descend');
-    writematrix(deg1, strcat('../network_analysis_data/degree_distributions/',bot,'_before_degree_distribution.csv'))
-    
-    % after
-    deg2 = sort(degrees_und(FC2), 'descend');
-    writematrix(deg2, strcat('../network_analysis_data/degree_distributions/',bot,'_after_degree_distribution.csv'))
+        phase = string(phases(j));
+
+        bot = string(bots(i));
+        
+        % read in functional connectivity matrix
+        FC = readmatrix(strcat(path, bot, '_', phase,'_',label,'.csv'));
+
+        % after
+        deg = sort(degrees_und(FC), 'descend');
+        writematrix(deg, strcat(outpath ,bot,'_', phase,'_',label,'_degree_distribution.csv'))
+
+    end
     
 end
