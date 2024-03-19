@@ -6,12 +6,18 @@ def neighbor_diversity(FC, consensus_partition):
     
     diversities = []
 
+    all_fcs = FC[np.triu_indices(FC.shape[0], k=1)]
+    num_edges = np.sum(all_fcs!=0)
+    num_nodes = FC.shape[0]
+    density = (2*num_edges)/(num_nodes*(num_nodes-1))
+    num_modules = len(np.unique(consensus_partition))
+
     for cell in range(FC.shape[0]): # iterate through rows of cells
         indices = np.where(FC[cell] > 0) # ids of neighbor cell
         neighbor_modules = consensus_partition[indices]
         node_diversity = len(np.unique(neighbor_modules))
 
-        diversities.append(node_diversity) # /len(np.unique(consensus_partition))) # normalize by the number of modules??
+        diversities.append(node_diversity/num_modules) # normalize by the number of modules
     
     return diversities
 
@@ -39,6 +45,7 @@ for BOT in BOTS:
     all_diversities2 += diversities2
 
 stat, p = mannwhitneyu(all_diversities1, all_diversities2)
+print(np.mean(all_diversities1), np.mean(all_diversities2))
 print(stat,p)
 
 fig, ax = plt.subplots(1,1, figsize=(3,3),layout='constrained')
@@ -64,9 +71,10 @@ plt.setp(after_plot["fliers"], markeredgecolor='darkred')
 # Customize labels and title
 plt.xticks([1, 2], ['Pre', 'Post'], fontweight='bold', fontsize=15)
 ax.tick_params(axis='y', which='major', labelsize=12)
-ax.set_ylabel('Num. neighboring modules', fontweight='bold', fontsize=12)
+ax.set_ylabel('Frac. neighboring modules', fontweight='bold', fontsize=12)
 
-h = np.max([np.max(all_diversities1), np.max(all_diversities2)])+1
+# h = np.max([np.max(all_diversities1), np.max(all_diversities2)])+1
+h = np.max([np.max(all_diversities1), np.max(all_diversities2)])+.02
 
 ax.plot((1,2),(h, h),'k')
 if p<0.001:
@@ -78,7 +86,8 @@ elif p<0.05:
 else:
     text = 'NS'
 
-plt.text(1.5, h+0.5, text, style='italic', ha='center', fontsize=12)
+# plt.text(1.5, h+0.5, text, style='italic', ha='center', fontsize=12)
+plt.text(1.5, h+0.01, text, style='italic', ha='center', fontsize=12)
 
 ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)

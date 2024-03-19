@@ -61,18 +61,21 @@ for i,BOT in enumerate(BOTS):
 
         p = 'pre' if phase=='before' else 'post'
 
-        ax.annotate(f'O{i+1}-{p}', xy=(1, 0),  # Coordinates for the bottom right corner
-             xycoords='axes fraction',  # Use axes fraction for specifying coordinates
-             xytext=(-5, 5),  # Offset of the text from the specified coordinates
-             textcoords='offset points',  # Use offset points for specifying text offset
-             ha='right',  # Horizontal alignment
-             va='bottom',  # Vertical alignment
-             fontsize=10,  # Adjust the font size as needed
-             fontweight='bold',
-             style='italic',
-             bbox=dict(boxstyle='square,pad=0.2', edgecolor='gainsboro', facecolor='gainsboro'))
+        # ax.annotate(f'O{i+1}-{p}', xy=(1, 0),  # Coordinates for the bottom right corner
+        #      xycoords='axes fraction',  # Use axes fraction for specifying coordinates
+        #      xytext=(-5, 5),  # Offset of the text from the specified coordinates
+        #      textcoords='offset points',  # Use offset points for specifying text offset
+        #      ha='right',  # Horizontal alignment
+        #      va='bottom',  # Vertical alignment
+        #      fontsize=10,  # Adjust the font size as needed
+        #      fontweight='bold',
+        #      style='italic',
+        #      bbox=dict(boxstyle='square,pad=0.2', edgecolor='gainsboro', facecolor='gainsboro'))
+
+        ax.set_title(f'O{i+1}-{p}', fontsize=15, fontweight='bold')
 
         ax_cntr+=1
 
+plt.tight_layout()
 # plt.show()
 plt.savefig(f'../../Desktop/degree_distributions.png', dpi=500, bbox_inches='tight')

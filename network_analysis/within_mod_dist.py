@@ -148,10 +148,10 @@ for i, group in enumerate(data):
             label = 'Post'
         labels.append((mpatches.Patch(facecolor=face_colors[group],edgecolor=edge_colors[group]), label))
 
-ax.set_xticks([1.375,3.375], ['Within module', 'Outside of module'], fontweight='bold', fontsize=15)
+ax.set_xticks([1.375,3.375], ['Within module', 'Between module'], fontweight='bold', fontsize=15)
 # ax.set_xticks([1.375,3.375,5.375], ['Within module', 'Outside of module', 'All'], fontweight='bold', fontsize=15)
 ax.tick_params(axis='y', which='major', labelsize=12)
-ax.set_ylabel('Distance', fontweight='bold', fontsize=15)
+ax.set_ylabel('Normalized distance', fontweight='bold', fontsize=15)
 
 plt.legend(*zip(*labels), loc='upper center')
 

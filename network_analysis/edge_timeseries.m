@@ -3,11 +3,14 @@ clc
 
 % load time series
 bot = 'bot_01';
-before_label='\bfO1-pre';
-after_label='\bfO1-post';
+% before_label='\bfO1-pre';
+% after_label='\bfO1-post';
 
 TSw1 = readmatrix(strcat('../network_inference_data/series_gsr_whitened/', bot, '_before_entrate.csv'));
 TSw2 = readmatrix(strcat('../network_inference_data/series_gsr_whitened/', bot, '_after_entrate.csv'));
+
+cells1 = size(TSw1,1);
+cells2 = size(TSw2,1);
 
 lts1 = size(TSw1,2);
 lts2 = size(TSw2,2);
@@ -29,47 +32,59 @@ zTS2 = zscore(TSw2');
 ets2 = fcn_edgets(zTS2);
 rss2 = sum(ets2.^2,2).^0.5;
 
-figure('position',[0 0 600 500]); % was [100 100 800 800]
-subplot(2,2,1)
-
-imagesc(ets1',[-1 1])
+% figure('position',[0 0 600 500]); % was [100 100 800 800]
+% subplot(2,2,1)
+% 
+% imagesc(ets1',[-1 1])
+% % xlabel('Time', fontsize=20); 
+% ylabel('Edges', fontsize=20); title(before_label, fontsize=25)
+% 
+% ax=gca;
+% ax.XAxis.FontSize = 20;
+% ax.YAxis.FontSize = 20;
+% 
+% subplot(2,2,2)
+% imagesc(ets2',[-1 1])
+% % xlabel('Time', fontsize=20); ylabel('Edges', fontsize=20); 
+% title(after_label, fontsize=25)
+% ax=gca;
+% ax.XAxis.FontSize = 20;
+% ax.YAxis.FontSize = 20;
+% 
+% subplot(2,2,3)
+% hold on
+% ar = area(rss1); set(ar,'FaceColor',[0.8 0.8 1]);
+% plot(rss1,'b'); axis([1 lts1 0 max([max(rss1) max(rss2)])]);
+% xlabel('Time', fontsize=20); ylabel('RSS Amplitude', fontsize=20)
+% box on
+% ax=gca;
+% ax.XAxis.FontSize = 20;
+% ax.YAxis.FontSize = 20;
+% 
+% subplot(2,2,4)
+% hold on
+% ar = area(rss2); set(ar,'FaceColor',[0.8 0.8 1]);
+% plot(rss2,'b'); axis([1 lts2 0 max([max(rss1) max(rss2)])]);
 % xlabel('Time', fontsize=20); 
-ylabel('Edges', fontsize=20); title(before_label, fontsize=25)
+% % ylabel('RSS Amplitude', fontsize=20)
+% box on
+% ax=gca;
+% ax.XAxis.FontSize = 20;
+% ax.YAxis.FontSize = 20;
+% 
+% 
+% colormap(flipud(mycmap))
 
-ax=gca;
-ax.XAxis.FontSize = 20;
-ax.YAxis.FontSize = 20;
+% saveas(gcf, strcat('../results/edge_timeseries/', bot, '_ets.png'))
 
-subplot(2,2,2)
-imagesc(ets2',[-1 1])
-% xlabel('Time', fontsize=20); ylabel('Edges', fontsize=20); 
-title(after_label, fontsize=25)
-ax=gca;
-ax.XAxis.FontSize = 20;
-ax.YAxis.FontSize = 20;
+[u1,v1]=find(triu(ones(cells1),1));
+[u2,v2]=find(triu(ones(cells2),1));
 
-subplot(2,2,3)
-hold on
-ar = area(rss1); set(ar,'FaceColor',[0.8 0.8 1]);
-plot(rss1,'b'); axis([1 lts1 0 max([max(rss1) max(rss2)])]);
-xlabel('Time', fontsize=20); ylabel('RSS Amplitude', fontsize=20)
-box on
-ax=gca;
-ax.XAxis.FontSize = 20;
-ax.YAxis.FontSize = 20;
+writematrix(ets1', strcat('../network_analysis_data/edge_timeseries/',bot,'_before_ETS.csv'))
+writematrix(ets2', strcat('../network_analysis_data/edge_timeseries/',bot,'_after_ETS.csv'))
 
-subplot(2,2,4)
-hold on
-ar = area(rss2); set(ar,'FaceColor',[0.8 0.8 1]);
-plot(rss2,'b'); axis([1 lts2 0 max([max(rss1) max(rss2)])]);
-xlabel('Time', fontsize=20); 
-% ylabel('RSS Amplitude', fontsize=20)
-box on
-ax=gca;
-ax.XAxis.FontSize = 20;
-ax.YAxis.FontSize = 20;
+writematrix(u1, strcat('../network_analysis_data/edge_timeseries/',bot,'_before_ETS_u.csv'))
+writematrix(v1, strcat('../network_analysis_data/edge_timeseries/',bot,'_before_ETS_v.csv'))
 
-
-colormap(flipud(mycmap))
-
-saveas(gcf, strcat('../results/edge_timeseries/', bot, '_ets.png'))
+writematrix(u2, strcat('../network_analysis_data/edge_timeseries/',bot,'_after_ETS_u.csv'))
+writematrix(v2, strcat('../network_analysis_data/edge_timeseries/',bot,'_after_ETS_v.csv'))
