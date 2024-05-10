@@ -9,5 +9,5 @@ This repository contains code for network inference and analysis (see below for 
 2. Network analysis requires the [Brain Connectivity Toolbox](https://sites.google.com/site/bctnet/)
 
 ### Video preprocessing:
-1. Image Registration (https://github.com/ELIFE-ASU/image-registration)
+1. [Image Registration](https://github.com/ELIFE-ASU/image-registration)
 2. [Segmentation and signal extraction](https://github.com/caitlingrasso/calcium-signal-extraction)
